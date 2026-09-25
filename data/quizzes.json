@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1,
+    "title": "Python & Web Development 1",
+    "description": "Test your knowledge of Python, Flask and web development.",
+    "questions": [
+      {
+        "question": "Which language is mainly used with Flask?",
+        "options": [
+          "Java",
+          "Python",
+          "C++",
+          "PHP"
+        ],
+        "answer": "Python"
+      },
+      {
+        "question": "Which tool is used for version control?",
+        "options": [
+          "Git",
+          "Docker",
+          "Flask",
+          "Jinja"
+        ],
+        "answer": "Git"
+      },
+      {
+        "question": "What does API stand for?",
+        "options": [
+          "Application Programming Interface",
+          "Application Process Integration",
+          "Advanced Programming Internet",
+          "Automated Program Interface"
+        ],
+        "answer": "Application Programming Interface"
+      },
+      {
+        "question": "Which technology is used for containerization?",
+        "options": [
+          "Docker",
+          "Git",
+          "pytest",
+          "HTML"
+        ],
+        "answer": "Docker"
+      },
+      {
+        "question": "What is CI in CI/CD?",
+        "options": [
+          "Continuous Integration",
+          "Code Integration",
+          "Continuous Internet",
+          "Code Installation"
+        ],
+        "answer": "Continuous Integration"
+      }
+    ]
+  }
+]

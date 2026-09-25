@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Quizzes | QuizMaster{% endblock %}
+
+{% block content %}
+
+<div class="page-heading">
+
+    <p class="eyebrow">MANAGE</p>
+
+    <h1>Your Quizzes</h1>
+
+    <p>
+        Edit, delete or preview your quizzes.
+    </p>
+
+</div>
+
+{% if quizzes %}
+
+<div class="manage-list">
+
+    {% for quiz in quizzes %}
+
+    <div class="manage-card">
+
+        <div>
+
+            <h2>{{ quiz.title }}</h2>
+
+            <p>
+                {{ quiz.description or "No description provided." }}
+            </p>
+
+            <span class="quiz-meta">
+                {{ quiz.questions|length }} Questions
+            </span>
+
+        </div>
+
+        <div class="manage-actions">
+
+            <a
+                href="/quiz/{{ quiz.id }}"
+                class="secondary-button"
+            >
+                Preview
+            </a>
+
+            <a
+                href="/edit/{{ quiz.id }}"
+                class="secondary-button"
+            >
+                Edit
+            </a>
+
+            <form
+                method="POST"
+                action="/delete/{{ quiz.id }}"
+                onsubmit="return confirm('Delete this quiz?');"
+            >
+                <button
+                    type="submit"
+                    class="delete-button"
+                >
+                    Delete
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="empty-state">
+
+    <div class="empty-icon">?</div>
+
+    <h3>No quizzes found</h3>
+
+    <p>Create a quiz to see it here.</p>
+
+    <a href="/create" class="primary-button">
+        Create Quiz
+    </a>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

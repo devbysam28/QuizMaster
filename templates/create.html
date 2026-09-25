@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Create Quiz | QuizMaster{% endblock %}
+
+{% block content %}
+
+<div class="form-page">
+
+    <div class="page-heading">
+
+        <a href="/" class="back-link">
+            ← Dashboard
+        </a>
+
+        <p class="eyebrow">CREATE</p>
+
+        <h1>Create a New Quiz</h1>
+
+        <p>
+            Build your own quiz with multiple-choice questions.
+        </p>
+
+    </div>
+
+    <form method="POST" class="quiz-builder">
+
+        <div class="form-card">
+
+            <h2>Quiz Details</h2>
+
+            <label>
+                Quiz Title
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="e.g. Python Fundamentals"
+                    required
+                >
+            </label>
+
+            <label>
+                Description
+                <textarea
+                    name="description"
+                    placeholder="Describe your quiz..."
+                    rows="3"
+                ></textarea>
+            </label>
+
+        </div>
+
+        <div class="form-card">
+
+            <div class="builder-header">
+
+                <div>
+                    <h2>Questions</h2>
+                    <p>Add questions and select the correct answer.</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="addQuestion()"
+                >
+                    + Add Question
+                </button>
+
+            </div>
+
+            <div id="questions-container"></div>
+
+            <input
+                type="hidden"
+                name="question_count"
+                id="question-count"
+                value="0"
+            >
+
+        </div>
+
+        <button type="submit" class="primary-button full-button">
+            Create Quiz
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+let questionCount = 0;
+
+function addQuestion() {
+    const container = document.getElementById("questions-container");
+
+    const question = document.createElement("div");
+
+    question.className = "builder-question";
+
+    question.innerHTML = `
+        <div class="builder-question-header">
+            <h3>Question ${questionCount + 1}</h3>
+
+            <button
+                type="button"
+                class="remove-button"
+                onclick="removeQuestion(this)"
+            >
+                Remove
+            </button>
+        </div>
+
+        <input
+            type="text"
+            name="question_${questionCount}"
+            placeholder="Enter your question"
+            required
+        >
+
+        <div class="option-grid">
+
+            <input
+                type="text"
+                name="option_${questionCount}_0"
+                placeholder="Option A"
+                required
+            >
+
+            <input
+                type="text"
+                name="option_${questionCount}_1"
+                placeholder="Option B"
+                required
+            >
+
+            <input
+                type="text"
+                name="option_${questionCount}_2"
+                placeholder="Option C"
+                required
+            >
+
+            <input
+                type="text"
+                name="option_${questionCount}_3"
+                placeholder="Option D"
+                required
+            >
+
+        </div>
+
+        <label>
+            Correct Answer
+
+            <select name="answer_${questionCount}" required>
+                <option value="">Select correct option</option>
+                <option value="0">Option A</option>
+                <option value="1">Option B</option>
+                <option value="2">Option C</option>
+                <option value="3">Option D</option>
+            </select>
+        </label>
+    `;
+
+    container.appendChild(question);
+
+    questionCount++;
+
+    document.getElementById("question-count").value = questionCount;
+}
+
+function removeQuestion(button) {
+    button.closest(".builder-question").remove();
+}
+</script>
+
+{% endblock %}

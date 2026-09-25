@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | QuizMaster{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div>
+        <p class="eyebrow">QUIZ PLATFORM</p>
+
+        <h1>Test your knowledge.</h1>
+
+        <p class="hero-text">
+            Create quizzes, challenge yourself and track your results.
+        </p>
+    </div>
+
+    <a href="/create" class="primary-button">
+        + Create Quiz
+    </a>
+
+</section>
+
+<section class="section-header">
+
+    <div>
+        <h2>Available Quizzes</h2>
+        <p>Choose a quiz and put your knowledge to the test.</p>
+    </div>
+
+    <span class="quiz-count">
+        {{ quizzes|length }} Quiz{% if quizzes|length != 1 %}zes{% endif %}
+    </span>
+
+</section>
+
+{% if quizzes %}
+
+<div class="quiz-grid">
+
+    {% for quiz in quizzes %}
+
+    <article class="quiz-card">
+
+        <div class="quiz-icon">
+            Q
+        </div>
+
+        <div class="quiz-card-content">
+
+            <h3>{{ quiz.title }}</h3>
+
+            <p>
+                {{ quiz.description or "Test your knowledge with this quiz." }}
+            </p>
+
+            <div class="quiz-meta">
+                <span>
+                    {{ quiz.questions|length }} Questions
+                </span>
+            </div>
+
+        </div>
+
+        <a
+            href="/quiz/{{ quiz.id }}"
+            class="secondary-button"
+        >
+            Start Quiz →
+        </a>
+
+    </article>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="empty-state">
+
+    <div class="empty-icon">?</div>
+
+    <h3>No quizzes yet</h3>
+
+    <p>Create your first quiz to get started.</p>
+
+    <a href="/create" class="primary-button">
+        Create Your First Quiz
+    </a>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

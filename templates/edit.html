@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Quiz | QuizMaster{% endblock %}
+
+{% block content %}
+
+<div class="form-page">
+
+    <div class="page-heading">
+
+        <a href="/manage" class="back-link">
+            ← Manage Quizzes
+        </a>
+
+        <p class="eyebrow">EDIT</p>
+
+        <h1>Edit Quiz</h1>
+
+        <p>
+            Update your quiz details and questions.
+        </p>
+
+    </div>
+
+    <form method="POST" class="quiz-builder">
+
+        <div class="form-card">
+
+            <h2>Quiz Details</h2>
+
+            <label>
+                Quiz Title
+
+                <input
+                    type="text"
+                    name="title"
+                    value="{{ quiz.title }}"
+                    required
+                >
+            </label>
+
+            <label>
+                Description
+
+                <textarea
+                    name="description"
+                    rows="3"
+                >{{ quiz.description }}</textarea>
+            </label>
+
+        </div>
+
+        <div class="form-card">
+
+            <div class="builder-header">
+
+                <div>
+                    <h2>Questions</h2>
+
+                    <p>
+                        Edit your questions and answers.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    onclick="addQuestion()"
+                >
+                    + Add Question
+                </button>
+
+            </div>
+
+            <div id="questions-container">
+
+                {% for question in quiz.questions %}
+
+                {% set question_index = loop.index0 %}
+
+                <div class="builder-question">
+
+                    <div class="builder-question-header">
+
+                        <h3>
+                            Question {{ loop.index }}
+                        </h3>
+
+                        <button
+                            type="button"
+                            class="remove-button"
+                            onclick="removeQuestion(this)"
+                        >
+                            Remove
+                        </button>
+
+                    </div>
+
+                    <input
+                        type="text"
+                        name="question_{{ question_index }}"
+                        value="{{ question.question }}"
+                        required
+                    >
+
+                    <div class="option-grid">
+
+                        {% for option in question.options %}
+
+                        {% set option_index = loop.index0 %}
+
+                        <input
+                            type="text"
+                            name="option_{{ question_index }}_{{ option_index }}"
+                            value="{{ option }}"
+                            placeholder="Option {{ ["A", "B", "C", "D"][option_index] }}"
+                            required
+                        >
+
+                        {% endfor %}
+
+                    </div>
+
+                    <label>
+                        Correct Answer
+
+                        <select
+                            name="answer_{{ question_index }}"
+                            required
+                        >
+
+                            {% for option in question.options %}
+
+                            {% set option_index = loop.index0 %}
+
+                            <option
+                                value="{{ option_index }}"
+                                {% if option == question.answer %}
+                                selected
+                                {% endif %}
+                            >
+                                Option
+                                {{ ["A", "B", "C", "D"][option_index] }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </label>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <input
+                type="hidden"
+                name="question_count"
+                id="question-count"
+                value="{{ quiz.questions|length }}"
+            >
+
+        </div>
+
+        <button
+            type="submit"
+            class="primary-button full-button"
+        >
+            Save Changes
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+let questionCount = Number(
+    document.getElementById("question-count").value
+);
+
+function addQuestion() {
+    const container = document.getElementById(
+        "questions-container"
+    );
+
+    const question = document.createElement("div");
+
+    question.className = "builder-question";
+
+    question.innerHTML = `
+        <div class="builder-question-header">
+            <h3>Question ${questionCount + 1}</h3>
+
+            <button
+                type="button"
+                class="remove-button"
+                onclick="removeQuestion(this)"
+            >
+                Remove
+            </button>
+        </div>
+
+        <input
+            type="text"
+            name="question_${questionCount}"
+            placeholder="Enter your question"
+            required
+        >
+
+        <div class="option-grid">
+
+            <input
+                type="text"
+                name="option_${questionCount}_0"
+                placeholder="Option A"
+                required
+            >
+
+            <input
+                type="text"
+                name="option_${questionCount}_1"
+                placeholder="Option B"
+                required
+            >
+
+            <input
+                type="text"
+                name="option_${questionCount}_2"
+                placeholder="Option C"
+                required
+            >
+
+            <input
+                type="text"
+                name="option_${questionCount}_3"
+                placeholder="Option D"
+                required
+            >
+
+        </div>
+
+        <label>
+            Correct Answer
+
+            <select
+                name="answer_${questionCount}"
+                required
+            >
+                <option value="">
+                    Select correct option
+                </option>
+
+                <option value="0">
+                    Option A
+                </option>
+
+                <option value="1">
+                    Option B
+                </option>
+
+                <option value="2">
+                    Option C
+                </option>
+
+                <option value="3">
+                    Option D
+                </option>
+            </select>
+        </label>
+    `;
+
+    container.appendChild(question);
+
+    questionCount += 1;
+
+    document.getElementById(
+        "question-count"
+    ).value = questionCount;
+}
+
+function removeQuestion(button) {
+    const question = button.closest(
+        ".builder-question"
+    );
+
+    if (question) {
+        question.remove();
+    }
+}
+</script>
+
+{% endblock %}

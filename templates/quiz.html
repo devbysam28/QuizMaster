@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}{{ quiz.title }} | QuizMaster{% endblock %}
+
+{% block content %}
+
+<div class="quiz-header">
+
+    <a href="/" class="back-link">
+        ← Back to Dashboard
+    </a>
+
+    <p class="eyebrow">QUIZ</p>
+
+    <h1>{{ quiz.title }}</h1>
+
+    <p>
+        {{ quiz.description }}
+    </p>
+
+</div>
+
+<form
+    method="POST"
+    action="/quiz/{{ quiz.id }}/submit"
+    class="quiz-form"
+>
+
+    {% for question in quiz.questions %}
+
+    {% set question_index = loop.index0 %}
+
+    <div class="question-card">
+
+        <div class="question-number">
+            QUESTION {{ loop.index }}
+            OF {{ quiz.questions|length }}
+        </div>
+
+        <h2>
+            {{ question.question }}
+        </h2>
+
+        <div class="options">
+
+            {% for option in question.options %}
+
+            <label class="option">
+
+                <input
+                    type="radio"
+                    name="question_{{ question_index }}"
+                    value="{{ option }}"
+                    required
+                >
+
+                <span>
+                    {{ option }}
+                </span>
+
+            </label>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+    <button
+        type="submit"
+        class="primary-button submit-quiz"
+    >
+        Submit Quiz
+    </button>
+
+</form>
+
+{% endblock %}

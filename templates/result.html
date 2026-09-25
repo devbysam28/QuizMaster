@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Result | QuizMaster{% endblock %}
+
+{% block content %}
+
+<div class="result-page">
+
+    <p class="eyebrow">QUIZ COMPLETED</p>
+
+    <h1>{{ quiz.title }}</h1>
+
+    <div class="result-card">
+
+        <p class="result-label">YOUR SCORE</p>
+
+        <div class="result-score">
+            {{ score }}<span>/{{ total }}</span>
+        </div>
+
+        <div class="result-percentage">
+            {{ percentage }}%
+        </div>
+
+        {% if percentage >= 80 %}
+
+        <p class="result-message">
+            Excellent work! You really know your stuff.
+        </p>
+
+        {% elif percentage >= 50 %}
+
+        <p class="result-message">
+            Good effort! Keep practicing and improve your score.
+        </p>
+
+        {% else %}
+
+        <p class="result-message">
+            Keep learning and try the quiz again.
+        </p>
+
+        {% endif %}
+
+        <div class="result-actions">
+
+            <a
+                href="/quiz/{{ quiz.id }}"
+                class="primary-button"
+            >
+                Try Again
+            </a>
+
+            <a
+                href="/"
+                class="secondary-button"
+            >
+                Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
